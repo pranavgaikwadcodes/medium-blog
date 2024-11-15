@@ -1,6 +1,5 @@
 # prod
 dist/
-zod.ts
 
 # dev
 .yarn/
