@@ -1,3 +1,4 @@
+import { createBlogInput, updateBlogInput } from "@100xdevs/medium-common";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { Hono } from "hono";
@@ -49,6 +50,12 @@ blogRouter.post('/', async (c) => {
     }).$extends(withAccelerate())
 
     const body = await c.req.json()
+    const { success } = createBlogInput.safeParse(body)
+    if(!success) {
+        c.status(400)
+        return c.json({ message: 'Invalid request' })
+    }
+
     const userId = c.get("userId")
 
     const blog = await prisma.post.create({
@@ -70,6 +77,12 @@ blogRouter.put('/', async (c) => {
     }).$extends(withAccelerate())
 
     const body = await c.req.json()
+    const { success } = updateBlogInput.safeParse(body)
+    if(!success) {
+        c.status(400)
+        return c.json({ message: 'Invalid request' })
+    }
+
     const userId = c.get("userId")
 
     const blog = await prisma.post.update({
@@ -87,7 +100,6 @@ blogRouter.put('/', async (c) => {
         id: blog.id
     })
 })
-
 
 // Todo: add pagination
 blogRouter.get('/bulk', async (c) => {
