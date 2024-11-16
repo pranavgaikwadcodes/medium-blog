@@ -20,23 +20,26 @@ userRouter.post('/signup', async (c) => {
     const body = await c.req.json();
     const { success } = signinInput.safeParse(body)
 
-    if(!success) {
+    if (!success) {
         c.status(400)
         return c.json({ message: 'Invalid request' })
     }
 
-    const user = await prisma.user.create({
-        data: {
-            name: body.name,
-            email: body.email,
-            password: body.password
-        }
-    })
+    try {
+        const user = await prisma.user.create({
+            data: {
+                name: body.name,
+                username: body.username,
+                password: body.password
+            }
+        })
+        console.log("After connection");
+        const token = await sign({ id: user.id }, c.env.JWT_SECRET)
+        return c.text(token)
 
-    const token = await sign({ id: user.id }, c.env.JWT_SECRET)
-    return c.json({
-        jwt: token
-    })
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 userRouter.post('/signin', async (c) => {
@@ -46,30 +49,32 @@ userRouter.post('/signin', async (c) => {
 
     const body = await c.req.json();
     const { success } = signupInput.safeParse(body)
-    
-    if(!success) {
+
+    if (!success) {
         c.status(400)
         return c.json({ message: 'Invalid request' })
     }
 
-    const user = await prisma.user.findFirst({
-        where: {
-            email: body.email,
-            password: body.password
-        },
-        select: {
-            id: true
+    try {
+        const user = await prisma.user.findFirst({
+            where: {
+                username: body.username,
+                password: body.password
+            },
+            select: {
+                id: true
+            }
+        })
+
+        if (!user) {
+            c.status(404)
+            return c.text('User Not Found!');
         }
-    })
 
-    if (!user) {
-        c.status(404)
-        return c.text('User Not Found!');
+        const token = await sign({ id: user.id }, c.env.JWT_SECRET)
+        return c.text(token)
+    } catch (error) {
+        console.log(error);
     }
-
-    const token = await sign({ id: user.id }, c.env.JWT_SECRET)
-    return c.json({
-        jwt: token
-    })
 
 })
