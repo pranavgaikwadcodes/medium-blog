@@ -45,8 +45,8 @@ const Signup = () => {
   async function sendRequest() {
     try {
       const response = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, signupInputs)
-      const jwt = String(response.data)
-      localStorage.setItem("token", jwt)
+      const jwt = response.data as string;
+      localStorage.setItem("token", jwt);
       navigate("/blogs")
     } catch (error) {
       console.log(error);      
