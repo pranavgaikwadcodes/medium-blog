@@ -1,37 +1,32 @@
+import Appbar from "../components/Appbar"
 import BlogCard from "../components/BlogCard"
+import { useBlogs } from "../hooks"
 
 
 const Blogs = () => {
 
+  const { blogs, loading} = useBlogs()
+
+  if(loading) {
+    return <p>Loading...</p>
+  }
+
   return (
     <>
+    <Appbar />
     <div className="flex justify-center items-center h-full">
 
-    <div className="w-[50%]">
-    <BlogCard
-      authorName="Pranav Gaikwad"
-      publishedDate="Saturday, 17 Nov 2024"
-      title="Pranav Gaikwad is the new Millionaire"
-      content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-    />
-    <BlogCard
-      authorName="Pranav Gaikwad"
-      publishedDate="Saturday, 17 Nov 2024"
-      title="Pranav Gaikwad is the new Millionaire"
-      content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-    />
-    <BlogCard
-      authorName="Pranav Gaikwad"
-      publishedDate="Saturday, 17 Nov 2024"
-      title="Pranav Gaikwad is the new Millionaire"
-      content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-    />
-    <BlogCard
-      authorName="Pranav Gaikwad"
-      publishedDate="Saturday, 17 Nov 2024"
-      title="Pranav Gaikwad is the new Millionaire"
-      content="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-    />
+    <div className="xl:w-[50%] w-full m-5">
+      {blogs.map( blog => 
+        <BlogCard
+        id={blog.id}
+        authorName={blog.author.name || "Anonymous"}
+        publishedDate="Saturday, 17 Nov 2024"
+        title={blog.title}
+        content={blog.content}
+      />
+      )}
+    
     </div>
 
     </div>

@@ -1,5 +1,4 @@
 import { NavLink } from 'react-router-dom'
-import LabelledInputBox from './LabelledInputBox'
 
 const AuthHeader = ({ type }: { type: "signup" | "signin" }) => {
     return (
