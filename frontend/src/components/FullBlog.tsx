@@ -25,9 +25,11 @@ const FullBlog = ({ blog }: { blog: Blog }) => {
                         <div className="font-medium text-slate-800">
                             Author
                         </div>
-                        <div className="pt-4 flex flex-1">
+                        <div className="pt-4 flex ">
                             <Avatar name={blog.author.name || "Anonymous"} />
-                            {blog.author.name || "Anonymous"}
+                            <div className="text-xl font-bold">
+                                {blog.author.name || "Anonymous"}
+                            </div>
                         </div>
                     </div>
                 </div>
