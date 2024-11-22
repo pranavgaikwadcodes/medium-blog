@@ -1,22 +1,19 @@
 import { Blog } from "../hooks"
-import Appbar from "./Appbar"
 import Avatar from "./Avatar"
 
 const FullBlog = ({ blog }: { blog: Blog }) => {
     return (
         <>
-            <Appbar />
-
             <div className="flex justify-center">
                 <div className="grid grid-cols-12 p-10 w-full pt-200 max-w-screen-xl">
                     <div className="col-span-8 px-5">
                         <div className="text-5xl font-extrabold">
                             {blog.title}
                         </div>
-                        <div className="text-slate-400">
+                        <div className="text-slate-400 mt-2">
                             Posted on 21/11/2024
                         </div>
-                        <div className="text-slate-800">
+                        <div className="text-slate-800 mt-4">
                             {blog.content}
                         </div>
                     </div>
